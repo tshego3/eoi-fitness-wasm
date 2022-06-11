@@ -1,0 +1,49 @@
+﻿@page "/workout/{title}/{Id:int}"
+@using Newtonsoft.Json
+@inject HttpClient Http
+
+<PageTitle>Workout</PageTitle>
+
+@if (_Workout == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h1>@_Workout.Title</h1>
+
+    <div class="row">
+        <div class="col">
+            <img src="imgs/gym-g6fe38f57d_1920.jpg" class="img-fluid" alt="...">
+        </div>
+        <div class="col align-self-center">
+            <figure>
+                <blockquote class="blockquote">
+                    <p>@_Workout.Heading</p>
+                </blockquote>
+                <figcaption class="blockquote-footer">
+                    @_Workout.MainGoal
+                </figcaption>
+                @foreach(var exercise in _Workout.Exercises)
+                {
+                    <p>@exercise.Duration</p>
+                }
+            </figure>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string? Title { get; set; }
+    [Parameter]
+    public int Id { get; set; }
+
+    private eoifitnesswasm.Shared.Workout? _Workout { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var json = await Http.GetStringAsync($"data/{Title}.json");
+        _Workout = JsonConvert.DeserializeObject<eoifitnesswasm.Shared.WorkoutsDB>(json).Workouts.Where(w => w.Id == Id).FirstOrDefault();
+    }
+}

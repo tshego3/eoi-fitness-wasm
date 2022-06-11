@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32421.90
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eoi-fitness-wasm", "eoi-fitness-wasm\eoi-fitness-wasm.csproj", "{4477BD0F-9962-4A5E-8D79-D51BC0C84775}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4477BD0F-9962-4A5E-8D79-D51BC0C84775}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4477BD0F-9962-4A5E-8D79-D51BC0C84775}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4477BD0F-9962-4A5E-8D79-D51BC0C84775}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4477BD0F-9962-4A5E-8D79-D51BC0C84775}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4C32D295-0C1F-4667-989D-DA5D4F6D2F82}
+	EndGlobalSection
+EndGlobal

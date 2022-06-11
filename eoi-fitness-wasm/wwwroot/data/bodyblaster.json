@@ -1,0 +1,198 @@
+{
+  "Workouts": [
+    {
+      "Id": 1,
+      "Title": "Body Blaster",
+      "Heading": "Day 1: Every Minute On the Minute (EMOM)",
+      "MainGoal": "Lose Fat",
+      "TrainingLevel": "Beginner",
+      "ProgramDuration": "6 Weeks",
+      "DaysPerWeek": "3 Day",
+      "TimePerWorkout": "20-35 Mins",
+      "Equipment": "Bodyweight",
+      "Author": "Roger “Rock” Lockridge",
+      "Rounds": 3,
+      "Link": "https://www.muscleandstrength.com/workouts/6-week-bodyweight-only-workout",
+      "Exercises": [
+        {
+          "Id": 1,
+          "Icon": null,
+          "Name": "Sprint",
+          "Sets": 1,
+          "Reps": 1,
+          "Rest": "00:00:00",
+          "Duration": "00:00:15"
+        },
+        {
+          "Id": 2,
+          "Icon": null,
+          "Name": "Burpees",
+          "Sets": 1,
+          "Reps": 15,
+          "Rest": "00:00:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 3,
+          "Icon": null,
+          "Name": "Squat Jumps",
+          "Sets": 1,
+          "Reps": 15,
+          "Rest": "00:00:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 4,
+          "Icon": null,
+          "Name": "Walking Lunges",
+          "Sets": 1,
+          "Reps": 8,
+          "Rest": "00:00:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 5,
+          "Icon": null,
+          "Name": "Frog Sit Up",
+          "Sets": 1,
+          "Reps": 15,
+          "Rest": "00:00:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 6,
+          "Icon": null,
+          "Name": "Push Ups",
+          "Sets": 1,
+          "Reps": 15,
+          "Rest": "00:00:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 7,
+          "Icon": null,
+          "Name": "Mountain Climbers",
+          "Sets": 1,
+          "Reps": 15,
+          "Rest": "00:00:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 8,
+          "Icon": null,
+          "Name": "Arm Circles",
+          "Sets": 1,
+          "Reps": 1,
+          "Rest": "00:00:00",
+          "Duration": "00:00:15"
+        },
+        {
+          "Id": 9,
+          "Icon": null,
+          "Name": "Shadow Boxing Combination",
+          "Sets": 1,
+          "Reps": 1,
+          "Rest": "00:02:00",
+          "Duration": "00:00:15"
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "Title": "Body Blaster",
+      "Heading": "Day 2: Circuit Training",
+      "MainGoal": "Lose Fat",
+      "TrainingLevel": "Beginner",
+      "ProgramDuration": "6 Weeks",
+      "DaysPerWeek": "3 Day",
+      "TimePerWorkout": "20-35 Mins",
+      "Equipment": "Bodyweight",
+      "Author": "Roger “Rock” Lockridge",
+      "Rounds": 5,
+      "Link": "https://www.muscleandstrength.com/workouts/6-week-bodyweight-only-workout",
+      "Exercises": [
+        {
+          "Id": 1,
+          "Icon": null,
+          "Name": "Sprint",
+          "Sets": 1,
+          "Reps": 1,
+          "Rest": "00:00:00",
+          "Duration": "00:00:15"
+        },
+        {
+          "Id": 2,
+          "Icon": null,
+          "Name": "Burpees",
+          "Sets": 1,
+          "Reps": 15,
+          "Rest": "00:00:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 3,
+          "Icon": null,
+          "Name": "Squat Jumps",
+          "Sets": 1,
+          "Reps": 15,
+          "Rest": "00:00:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 4,
+          "Icon": null,
+          "Name": "Walking Lunges",
+          "Sets": 1,
+          "Reps": 8,
+          "Rest": "00:00:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 5,
+          "Icon": null,
+          "Name": "Frog Sit Up",
+          "Sets": 1,
+          "Reps": 15,
+          "Rest": "00:00:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 6,
+          "Icon": null,
+          "Name": "Push Ups",
+          "Sets": 1,
+          "Reps": 15,
+          "Rest": "00:00:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 7,
+          "Icon": null,
+          "Name": "Mountain Climbers",
+          "Sets": 1,
+          "Reps": 15,
+          "Rest": "00:00:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 8,
+          "Icon": null,
+          "Name": "Arm Circles",
+          "Sets": 1,
+          "Reps": 1,
+          "Rest": "00:00:00",
+          "Duration": "00:00:15"
+        },
+        {
+          "Id": 9,
+          "Icon": null,
+          "Name": "Shadow Boxing Combination",
+          "Sets": 1,
+          "Reps": 1,
+          "Rest": "00:02:00",
+          "Duration": "00:00:15"
+        }
+      ]
+    }
+  ]
+}
