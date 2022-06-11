@@ -1,0 +1,126 @@
+{
+  "Workouts": [
+    {
+      "Id": 1,
+      "Title": "Core Destroyer",
+      "Heading": "Workout #1 - Straight Sets Session",
+      "MainGoal": "Build Muscle",
+      "TrainingLevel": "Beginner",
+      "ProgramDuration": "8 Weeks",
+      "DaysPerWeek": "2 Days",
+      "TimePerWorkout": "10-20 Mins",
+      "Equipment": "Bodyweight, Dumbbells",
+      "Author": "Roger “Rock” Rockridge",
+      "Rounds": 1,
+      "Link": "https://www.muscleandstrength.com/workouts/core-destroyer-8-week-home-ab-workout",
+      "Exercises": [
+        {
+          "Id": 1,
+          "Icon": null,
+          "Name": "Weighted Crunch",
+          "Sets": 3,
+          "Reps": 12,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 2,
+          "Icon": null,
+          "Name": "Rotating Mountain Climber",
+          "Sets": 3,
+          "Reps": 12,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 3,
+          "Icon": null,
+          "Name": "Seated Twist",
+          "Sets": 3,
+          "Reps": 12,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 4,
+          "Icon": null,
+          "Name": "Lying Leg Raise",
+          "Sets": 3,
+          "Reps": 12,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 5,
+          "Icon": null,
+          "Name": "Plank",
+          "Sets": 3,
+          "Reps": 1,
+          "Rest": "00:01:00",
+          "Duration": "00:00:60"
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "Title": "Core Destroyer",
+      "Heading": "Workout #2 - Ab Blasting Circuit",
+      "MainGoal": "Build Muscle",
+      "TrainingLevel": "Beginner",
+      "ProgramDuration": "8 Weeks",
+      "DaysPerWeek": "2 Days",
+      "TimePerWorkout": "10-20 Mins",
+      "Equipment": "Bodyweight, Dumbbells",
+      "Author": "Roger “Rock” Rockridge",
+      "Rounds": 3,
+      "Link": " https://www.muscleandstrength.com/workouts/core-destroyer-8-week-home-ab-workout",
+      "Exercises": [
+        {
+          "Id": 1,
+          "Icon": null,
+          "Name": "Weighted Crunch",
+          "Sets": 1,
+          "Reps": 1,
+          "Rest": "00:00:00",
+          "Duration": "00:00:30"
+        },
+        {
+          "Id": 2,
+          "Icon": null,
+          "Name": "Rotating Mountain Climber",
+          "Sets": 1,
+          "Reps": 1,
+          "Rest": "00:00:00",
+          "Duration": "00:00:30"
+        },
+        {
+          "Id": 3,
+          "Icon": null,
+          "Name": "Seated Twist",
+          "Sets": 1,
+          "Reps": 1,
+          "Rest": "00:00:00",
+          "Duration": "00:00:30"
+        },
+        {
+          "Id": 4,
+          "Icon": null,
+          "Name": "Lying Leg Raise",
+          "Sets": 1,
+          "Reps": 1,
+          "Rest": "00:00:00",
+          "Duration": "00:00:30"
+        },
+        {
+          "Id": 5,
+          "Icon": null,
+          "Name": "Plank",
+          "Sets": 1,
+          "Reps": 1,
+          "Rest": "00:02:00",
+          "Duration": "00:00:30"
+        }
+      ]
+    }
+  ]
+}

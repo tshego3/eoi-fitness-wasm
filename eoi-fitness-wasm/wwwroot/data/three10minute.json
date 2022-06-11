@@ -1,0 +1,169 @@
+{
+  "Workouts": [
+    {
+      "Id": 1,
+      "Title": "Three 10 Minute At Home Upper Body Workouts",
+      "Heading": "The Push / Pull Superset",
+      "MainGoal": "Build Muscle",
+      "TrainingLevel": "Beginner",
+      "ProgramDuration": "6 Weeks",
+      "DaysPerWeek": "3 Days",
+      "TimePerWorkout": "10 Mins",
+      "Equipment": "Bands, Bodyweight",
+      "Author": "Mike Samuels",
+      "Rounds": 1,
+      "Link": "https://www.muscleandstrength.com/workouts/10-minute-home-upper-body-workouts",
+      "Exercises": [
+        {
+          "Id": 1,
+          "Icon": null,
+          "Name": "Chin Ups (Any Grip)",
+          "Sets": 1,
+          "Reps": 1,
+          "Rest": "00:00:00",
+          "Duration": "00:05:00"
+        },
+        {
+          "Id": 2,
+          "Icon": null,
+          "Name": "Push Ups",
+          "Sets": 1,
+          "Reps": 1,
+          "Rest": "00:00:00",
+          "Duration": "00:05:00"
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "Title": "Three 10 Minute At Home Upper Body Workouts",
+      "Heading": "The Mechanical Drop Set",
+      "MainGoal": "Build Muscle",
+      "TrainingLevel": "Beginner",
+      "ProgramDuration": "6 Weeks",
+      "DaysPerWeek": "3 Days",
+      "TimePerWorkout": "10 Mins",
+      "Equipment": "Bands, Bodyweight",
+      "Author": "Mike Samuels",
+      "Rounds": 1,
+      "Link": "https://www.muscleandstrength.com/workouts/10-minute-home-upper-body-workouts",
+      "Exercises": [
+        {
+          "Id": 1,
+          "Icon": null,
+          "Name": "Feet Elevated Push Ups",
+          "Sets": 3,
+          "Reps": 1,
+          "Rest": "00:00:00",
+          "Duration": "00:01:05"
+        },
+        {
+          "Id": 2,
+          "Icon": null,
+          "Name": "Regular Push Ups",
+          "Sets": 3,
+          "Reps": 1,
+          "Rest": "00:00:00",
+          "Duration": "00:01:05"
+        },
+        {
+          "Id": 3,
+          "Icon": null,
+          "Name": "Knee Push Ups",
+          "Sets": 3,
+          "Reps": 1,
+          "Rest": "00:00:30",
+          "Duration": "00:01:05"
+        },
+        {
+          "Id": 4,
+          "Icon": null,
+          "Name": "Wide-Grip Pull Ups",
+          "Sets": 3,
+          "Reps": 1,
+          "Rest": "00:00:00",
+          "Duration": "00:01:05"
+        },
+        {
+          "Id": 5,
+          "Icon": null,
+          "Name": "Narrow Grip Chin Ups",
+          "Sets": 3,
+          "Reps": 1,
+          "Rest": "00:00:00",
+          "Duration": "00:01:05"
+        },
+        {
+          "Id": 6,
+          "Icon": null,
+          "Name": "Negative Chin Ups",
+          "Sets": 3,
+          "Reps": 5,
+          "Rest": "00:00:30",
+          "Duration": "00:00:10"
+        }
+      ]
+    },
+    {
+      "Id": 3,
+      "Title": "Three 10 Minute At Home Upper Body Workouts",
+      "Heading": "10 Minutes of Fury",
+      "MainGoal": "Build Muscle",
+      "TrainingLevel": "Beginner",
+      "ProgramDuration": "6 Weeks",
+      "DaysPerWeek": "3 Days",
+      "TimePerWorkout": "10 Mins",
+      "Equipment": "Bands, Bodyweight",
+      "Author": "Mike Samuels",
+      "Rounds": 1,
+      "Link": "https://www.muscleandstrength.com/workouts/10-minute-home-upper-body-workouts",
+      "Exercises": [
+        {
+          "Id": 1,
+          "Icon": null,
+          "Name": "Spiderman Push Ups",
+          "Sets": 2,
+          "Reps": 1,
+          "Rest": "00:00:00",
+          "Duration": "00:01:00"
+        },
+        {
+          "Id": 2,
+          "Icon": null,
+          "Name": "Chin Ups",
+          "Sets": 2,
+          "Reps": 1,
+          "Rest": "00:00:00",
+          "Duration": "00:01:00"
+        },
+        {
+          "Id": 3,
+          "Icon": null,
+          "Name": "Band Pull Apart",
+          "Sets": 2,
+          "Reps": 1,
+          "Rest": "00:00:00",
+          "Duration": "00:01:00"
+        },
+        {
+          "Id": 4,
+          "Icon": null,
+          "Name": "Close Grip Push Ups",
+          "Sets": 2,
+          "Reps": 1,
+          "Rest": "00:00:00",
+          "Duration": "00:01:00"
+        },
+        {
+          "Id": 5,
+          "Icon": null,
+          "Name": "Band Curls",
+          "Sets": 2,
+          "Reps": 1,
+          "Rest": "00:00:00",
+          "Duration": "00:01:00"
+        }
+      ]
+    }
+  ]
+}

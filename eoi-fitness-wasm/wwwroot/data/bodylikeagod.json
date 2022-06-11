@@ -1,0 +1,216 @@
+{
+  "Workouts": [
+    {
+      "Id": 1,
+      "Title": "Body Like A God",
+      "Heading": "Workout 1",
+      "MainGoal": "Build Muscle",
+      "TrainingLevel": "Beginner",
+      "ProgramDuration": "4 Weeks",
+      "DaysPerWeek": "4 Days",
+      "TimePerWorkout": "30-60 Mins",
+      "Equipment": "Bodyweight",
+      "Author": "Brad Borland",
+      "Rounds": 1,
+      "Link": "https://www.muscleandstrength.com/workouts/body-god-complete-bodyweight-muscle-building-plan",
+      "Exercises": [
+        {
+          "Id": 1,
+          "Icon": null,
+          "Name": "Push Up",
+          "Sets": 5,
+          "Reps": 20,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 2,
+          "Icon": null,
+          "Name": "Medium Grip Pull Up",
+          "Sets": 5,
+          "Reps": 20,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 3,
+          "Icon": null,
+          "Name": "Handstand or Jackknife Push Up",
+          "Sets": 5,
+          "Reps": 20,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 4,
+          "Icon": null,
+          "Name": "Diamond Push Up",
+          "Sets": 5,
+          "Reps": 20,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 5,
+          "Icon": null,
+          "Name": "Inverted Rack Curl",
+          "Sets": 5,
+          "Reps": 20,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 6,
+          "Icon": null,
+          "Name": "Single Leg Calf Raise",
+          "Sets": 5,
+          "Reps": 20,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 7,
+          "Icon": null,
+          "Name": "Jump Squat",
+          "Sets": 5,
+          "Reps": 20,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 8,
+          "Icon": null,
+          "Name": "Walking Lunge",
+          "Sets": 5,
+          "Reps": 20,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 9,
+          "Icon": null,
+          "Name": "Hanging Leg Raise",
+          "Sets": 5,
+          "Reps": 20,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 10,
+          "Icon": null,
+          "Name": "Short All-Out Sprint Outdoors or on Treadmill",
+          "Sets": 5,
+          "Reps": 20,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "Title": "Body Like A God",
+      "Heading": "Workout 2",
+      "MainGoal": "Build Muscle",
+      "TrainingLevel": "Beginner",
+      "ProgramDuration": "4 Weeks",
+      "DaysPerWeek": "4 Day",
+      "TimePerWorkout": "30-60 Mins",
+      "Equipment": "Bodyweight",
+      "Author": "Brad Borland",
+      "Rounds": 1,
+      "Link": "https://www.muscleandstrength.com/workouts/body-god-complete-bodyweight-muscle-building-plan",
+      "Exercises": [
+        {
+          "Id": 1,
+          "Icon": null,
+          "Name": "Feet-Elevated Push Up",
+          "Sets": 5,
+          "Reps": 20,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 2,
+          "Icon": null,
+          "Name": "Wide Grip Inverted Row",
+          "Sets": 5,
+          "Reps": 20,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 3,
+          "Icon": null,
+          "Name": "Rack Triceps Press or Parallel Bar Dips",
+          "Sets": 5,
+          "Reps": 20,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 4,
+          "Icon": null,
+          "Name": "Shoulder-Width Reverse-Grip Pull Up",
+          "Sets": 5,
+          "Reps": 20,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 5,
+          "Icon": null,
+          "Name": "Floor Crunch or Planks",
+          "Sets": 5,
+          "Reps": 20,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 6,
+          "Icon": null,
+          "Name": "Box Jump",
+          "Sets": 5,
+          "Reps": 20,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 7,
+          "Icon": null,
+          "Name": "Bulgarian Split Squat",
+          "Sets": 5,
+          "Reps": 20,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 8,
+          "Icon": null,
+          "Name": "Reverse Lunge",
+          "Sets": 5,
+          "Reps": 20,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 9,
+          "Icon": null,
+          "Name": "Bench Step Up",
+          "Sets": 5,
+          "Reps": 20,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 10,
+          "Icon": null,
+          "Name": "Short All-Out Sprint Outdoors or on Treadmill",
+          "Sets": 5,
+          "Reps": 20,
+          "Rest": "00:01:00",
+          "Duration": "00:00:00"
+        }
+      ]
+    }
+  ]
+}

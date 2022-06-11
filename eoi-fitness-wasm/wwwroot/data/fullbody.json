@@ -1,0 +1,92 @@
+{
+  "Workouts": [
+    {
+      "Id": 1,
+      "Title": "Full Body Body Weight Workout",
+      "Heading": "Bodyweight Workout",
+      "MainGoal": "Build Muscle",
+      "TrainingLevel": "Beginner",
+      "ProgramDuration": "6 Weeks",
+      "DaysPerWeek": "1 Day",
+      "TimePerWorkout": "30-45 Mins",
+      "Equipment": "Bodyweight",
+      "Author": "Jeremy Wood",
+      "Rounds": 1,
+      "Link": "https://www.muscleandstrength.com/workouts/full-body-bodyweight-workout.html",
+      "Exercises": [
+        {
+          "Id": 1,
+          "Icon": null,
+          "Name": "Warm Up: 5 Mins Walk or Light Jog",
+          "Sets": 1,
+          "Reps": 1,
+          "Rest": "00:02:00",
+          "Duration": "00:05:00"
+        },
+        {
+          "Id": 2,
+          "Icon": null,
+          "Name": "Jump Squat",
+          "Sets": 3,
+          "Reps": 20,
+          "Rest": "00:02:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 3,
+          "Icon": null,
+          "Name": "Push Up",
+          "Sets": 3,
+          "Reps": 15,
+          "Rest": "00:02:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 4,
+          "Icon": null,
+          "Name": "Pull Up",
+          "Sets": 3,
+          "Reps": 15,
+          "Rest": "00:02:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 5,
+          "Icon": null,
+          "Name": "Walking Lunge",
+          "Sets": 3,
+          "Reps": 15,
+          "Rest": "00:02:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 6,
+          "Icon": null,
+          "Name": "Dips",
+          "Sets": 3,
+          "Reps": 15,
+          "Rest": "00:02:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 7,
+          "Icon": null,
+          "Name": "Inverted Pull Ups",
+          "Sets": 3,
+          "Reps": 15,
+          "Rest": "00:02:00",
+          "Duration": "00:00:00"
+        },
+        {
+          "Id": 8,
+          "Icon": null,
+          "Name": "Cool Down: 5 Mins Walk or Light Jog",
+          "Sets": 1,
+          "Reps": 1,
+          "Rest": "00:02:00",
+          "Duration": "00:05:00"
+        }
+      ]
+    }
+  ]
+}

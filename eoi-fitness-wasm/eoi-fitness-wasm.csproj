@@ -14,6 +14,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="wwwroot\data\three10minute.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\data\fullbody.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\data\coredestroyer.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\data\bodylikeagod.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\data\bodyblaster.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
