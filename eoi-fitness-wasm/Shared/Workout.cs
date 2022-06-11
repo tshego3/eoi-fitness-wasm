@@ -30,6 +30,6 @@
 
     public class WorkoutsDB
     {
-        public List<Workout> Workouts { get; set; }
+        public List<Workout>? Workouts { get; set; }
     }
 }
