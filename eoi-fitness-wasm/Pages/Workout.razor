@@ -10,38 +10,72 @@
 }
 else
 {
-    <h1>@_Workout.Title</h1>
-
     <div class="row">
         <div class="col">
-            <img src="imgs/gym-g6fe38f57d_1920.jpg" class="img-fluid" alt="...">
-        </div>
-        <div class="col">
-            <h2><b>Workout:</b> @_Workout.Heading</h2>
-            <h3><b>Description:</b> @_Workout.Description</h3>
             <div class="row">
                 <div class="col">
-                    <p><b>Main Goal:</b> @_Workout.MainGoal</p>
-                    <p><b>Training Level:</b> @_Workout.TrainingLevel</p>
-                    <p><b>Program Duration:</b> @_Workout.ProgramDuration</p>
-                    <p><b>Days Per Week:</b> @_Workout.DaysPerWeek</p>
+                    <h3><b>@_Workout.Title</b></h3>
                 </div>
                 <div class="col">
-                    <p><b>Time Per Workout:</b> @_Workout.TimePerWorkout</p>
-                    <p><b>Equipment:</b> @_Workout.Equipment</p>
-                    <p><b>Author:</b> @_Workout.Author</p>
-                    <p><b>Source:</b> <a href="@_Workout.Link" target="_blank">Workout Link</a></p>
+                    <h3><b>@_Exercise.Duration</b></h3>
                 </div>
             </div>
-            <RadzenDataGrid AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="10" AllowSorting="true" Data="@_Exercises" TItem="eoifitnesswasm.Shared.Exercise" ColumnWidth="200px" SelectionMode="DataGridSelectionMode.Single" @bind-Value=@_Exercise>
-                <Columns>
-                    <RadzenDataGridColumn TItem="eoifitnesswasm.Shared.Exercise" Property="Name" Title="Exercise" />
-                    <RadzenDataGridColumn TItem="eoifitnesswasm.Shared.Exercise" Property="Sets" Title="Sets" />
-                    <RadzenDataGridColumn TItem="eoifitnesswasm.Shared.Exercise" Property="Reps" Title="Reps" />
-                    <RadzenDataGridColumn TItem="eoifitnesswasm.Shared.Exercise" Property="Rest" Title="Rest" />
-                    <RadzenDataGridColumn TItem="eoifitnesswasm.Shared.Exercise" Property="Duration" Title="Duration" />
-                </Columns>
-            </RadzenDataGrid>
+            <div class="row">
+                <div class="col">
+                    <h5><b>Selected Exercise:</b> @_Exercise.Name</h5>
+                    <div class="row">
+                        <div class="col">
+                            <h5><b>Sets:</b> @_Exercise.Sets</h5>
+                        </div>
+                        <div class="col">
+                            <h5><b>Reps:</b> @_Exercise.Reps</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <RadzenRadialGauge>
+                    <RadzenRadialGaugeScale StartAngle="-150" EndAngle="150" Step="1" Min="0" Max="_Exercise.Duration.Seconds" TickPosition=@tickPosition>
+                        <RadzenRadialGaugeScalePointer Value=@RadzenRadialGaugeValue Length="0.6" ShowValue=@RadzenRadialGaugeShowValue>
+                            <Template Context="pointer">
+                                <h4>
+                                    @pointer.Value <sup>sec</sup>
+                                </h4>
+                            </Template>
+                        </RadzenRadialGaugeScalePointer>
+                        <RadzenRadialGaugeScaleRange From="0" To="_Exercise.Duration.Seconds" Fill="blue" />
+                    </RadzenRadialGaugeScale>
+                </RadzenRadialGauge>
+            </div>
+        </div>
+        <div class="col">
+            <div class="col">
+                <h5><b>Workout:</b> @_Workout.Heading</h5>
+                <p><b>Description:</b> @_Workout.Description</p>
+                <div class="row">
+                    <div class="col">
+                        <p><b>Main Goal:</b> @_Workout.MainGoal</p>
+                        <p><b>Training Level:</b> @_Workout.TrainingLevel</p>
+                        <p><b>Program Duration:</b> @_Workout.ProgramDuration</p>
+                        <p><b>Days Per Week:</b> @_Workout.DaysPerWeek</p>
+                    </div>
+                    <div class="col">
+                        <p><b>Time Per Workout:</b> @_Workout.TimePerWorkout</p>
+                        <p><b>Equipment:</b> @_Workout.Equipment</p>
+                        <p><b>Author:</b> @_Workout.Author</p>
+                        <p><b>Source:</b> <a href="@_Workout.Link" target="_blank">Workout Link</a></p>
+                    </div>
+                </div>
+                <RadzenDataGrid AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="10" AllowSorting="true" Data="@_Exercises" TItem="eoifitnesswasm.Shared.Exercise" ColumnWidth="200px" SelectionMode="DataGridSelectionMode.Single" @bind-Value=@_SelectedExercise>
+                    <Columns>
+                        <RadzenDataGridColumn TItem="eoifitnesswasm.Shared.Exercise" Property="Name" Title="Exercise" />
+                        <RadzenDataGridColumn TItem="eoifitnesswasm.Shared.Exercise" Property="Sets" Title="Sets" />
+                        <RadzenDataGridColumn TItem="eoifitnesswasm.Shared.Exercise" Property="Reps" Title="Reps" />
+                        <RadzenDataGridColumn TItem="eoifitnesswasm.Shared.Exercise" Property="Rest" Title="Rest" />
+                        <RadzenDataGridColumn TItem="eoifitnesswasm.Shared.Exercise" Property="Duration" Title="Duration" />
+                    </Columns>
+                </RadzenDataGrid>
+            </div>
         </div>
     </div>
 }
@@ -54,14 +88,20 @@ else
 
     private eoifitnesswasm.Shared.Workout? _Workout { get; set; }
     private IEnumerable<eoifitnesswasm.Shared.Exercise>? _Exercises { get; set; }
-    private IList<eoifitnesswasm.Shared.Exercise>? _Exercise { get; set; }
+    private IList<eoifitnesswasm.Shared.Exercise>? _SelectedExercise { get; set; }
+    private eoifitnesswasm.Shared.Exercise? _Exercise { get; set; }
+    private Timer? _Timer { get; set; }
+    private bool RadzenRadialGaugeShowValue { get { return true; } }
+    private double RadzenRadialGaugeValue { get; set; }
+    private IEnumerable<GaugeTickPosition> tickPositions = Enum.GetValues(typeof(GaugeTickPosition)).Cast<GaugeTickPosition>();
+    private GaugeTickPosition tickPosition = GaugeTickPosition.Inside;
 
     protected override async Task OnInitializedAsync()
     {
         var json = await Http.GetStringAsync($"data/{Title}.json");
         _Workout = JsonConvert.DeserializeObject<eoifitnesswasm.Shared.WorkoutsDB>(json).Workouts.Where(w => w.Id == Id).FirstOrDefault();
         _Exercises = _Workout.Exercises;
-
+        _Exercise = _Exercises.FirstOrDefault();
 
     }
 
