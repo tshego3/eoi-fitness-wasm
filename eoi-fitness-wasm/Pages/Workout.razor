@@ -38,25 +38,25 @@ else
             </div>
             <div class="row">
                 <RadzenRadialGauge>
-                    <RadzenRadialGaugeScale StartAngle="-150" EndAngle="150" Step="1" Min="0" Max="_Exercise.Duration.Seconds" TickPosition=@tickPosition>
-                        <RadzenRadialGaugeScalePointer Value=@RadzenRadialGaugeValue Length="0.6" ShowValue=@RadzenRadialGaugeShowValue>
+                    <RadzenRadialGaugeScale StartAngle="-150" EndAngle="150" Step="1" Min="0" Max="@(_Exercise.Duration.Seconds == 0 ? 1D : _Exercise.Duration.Seconds)" TickPosition=@tickPosition>
+                        <RadzenRadialGaugeScalePointer Value=RadzenRadialGaugeValue Length="0.6" ShowValue=@RadzenRadialGaugeShowValue>
                             <Template Context="pointer">
                                 <h4>
                                     @pointer.Value <sup>sec</sup>
                                 </h4>
                             </Template>
                         </RadzenRadialGaugeScalePointer>
-                        <RadzenRadialGaugeScaleRange From="0" To="_Exercise.Duration.Seconds" Fill="blue" />
+                        <RadzenRadialGaugeScaleRange From="0" To="@(_Exercise.Duration.Seconds == 0 ? 1D : _Exercise.Duration.Seconds)" Fill="blue" />
                     </RadzenRadialGaugeScale>
                 </RadzenRadialGauge>
             </div>
             <div class="row">
                 <div class="btn-group" role="group" aria-label="Timer Control">
-                    <button type="button" class="btn btn-primary" disabled=@(_timerOperation.CanBeStarted ? false : true) @onclick="StartTimer">Start</button>
-                    <button type="button" class="btn btn-primary" disabled=@(_timerOperation.IsRecurring ? false : true) @onclick="PauseTimer">Pause</button>
-                    <button type="button" class="btn btn-primary" disabled=@(_timerOperation.IsPaused ? false : true) @onclick="ResumeTimer">Resume</button>
-                    <button type="button" class="btn btn-primary" disabled=@(_timerOperation.IsRecurring ? false : true) @onclick="StopTimer">Stop</button>
-                    <button type="button" class="btn btn-primary" disabled=@(_timerOperation.IsRecurring ? false : true) @onclick="NextExercise">Next</button>
+                    <button type="button" class="btn btn-primary col-sm-2" disabled=@(_timerOperation.CanBeStarted ? false : true) @onclick="StartTimer">Start</button>
+                    <button type="button" class="btn btn-primary col-sm-2" disabled=@(_timerOperation.IsRecurring ? false : true) @onclick="PauseTimer">Pause</button>
+                    <button type="button" class="btn btn-primary col-sm-2" disabled=@(_timerOperation.IsPaused ? false : true) @onclick="ResumeTimer">Resume</button>
+                    <button type="button" class="btn btn-primary col-sm-2" disabled=@(_timerOperation.IsRecurring ? false : true) @onclick="StopTimer">Stop</button>
+                    <button type="button" class="btn btn-primary col-sm-2" disabled=@(_timerOperation.IsRecurring ? false : true) @onclick="NextExercise">Next</button>
                 </div>
             </div>
         </div>
@@ -78,15 +78,29 @@ else
                         <p><b>Source:</b> <a href="@_Workout.Link" target="_blank">Workout Link</a></p>
                     </div>
                 </div>
-                <RadzenDataGrid AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" AllowPaging="true" PageSize="10" AllowSorting="true" Data="@_Workout.Exercises" TItem="eoifitnesswasm.Shared.Exercise" ColumnWidth="200px" SelectionMode="DataGridSelectionMode.Single" @bind-Value=@_SelectedExercise>
-                    <Columns>
-                        <RadzenDataGridColumn TItem="eoifitnesswasm.Shared.Exercise" Property="Name" Title="Exercise" />
-                        <RadzenDataGridColumn TItem="eoifitnesswasm.Shared.Exercise" Property="Sets" Title="Sets" />
-                        <RadzenDataGridColumn TItem="eoifitnesswasm.Shared.Exercise" Property="Reps" Title="Reps" />
-                        <RadzenDataGridColumn TItem="eoifitnesswasm.Shared.Exercise" Property="Rest" Title="Rest" />
-                        <RadzenDataGridColumn TItem="eoifitnesswasm.Shared.Exercise" Property="Duration" Title="Duration" />
-                    </Columns>
-                </RadzenDataGrid>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Exercise</th>
+                            <th scope="col">Sets</th>
+                            <th scope="col">Reps</th>
+                            <th scope="col">Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var exercise in _Workout.Exercises)
+                        {
+                            <tr>
+                            <th scope="row" visi>@exercise.Id</th>
+                            <td>@exercise.Name</td>
+                            <td>@exercise.Sets</td>
+                            <td>@exercise.Reps</td>
+                            <td>@exercise.Duration</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -99,10 +113,27 @@ else
     public int Id { get; set; }
 
     private eoifitnesswasm.Shared.Workout? _Workout { get; set; }
-    private IList<eoifitnesswasm.Shared.Exercise>? _SelectedExercise { get; set; }
     private eoifitnesswasm.Shared.Exercise? _Exercise { get; set; }
     private bool RadzenRadialGaugeShowValue { get { return true; } }
-    private double RadzenRadialGaugeValue { get; set; }
+    private double _RadzenRadialGaugeValue { get; set; }
+    private double RadzenRadialGaugeValue
+    {
+        get
+        {
+            return _RadzenRadialGaugeValue;
+        }
+        set
+        {
+            if (value != null)
+            {
+                _RadzenRadialGaugeValue = value;
+            }
+            else
+            {
+                _RadzenRadialGaugeValue = 0D;
+            }
+        }
+    }
     private IEnumerable<GaugeTickPosition> tickPositions { get { return Enum.GetValues(typeof(GaugeTickPosition)).Cast<GaugeTickPosition>(); } }
     private GaugeTickPosition tickPosition { get { return GaugeTickPosition.Inside; } }
     private RecurringOperation? _timerOperation { get; set; }
