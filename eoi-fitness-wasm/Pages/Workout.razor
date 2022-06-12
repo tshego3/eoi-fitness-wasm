@@ -3,6 +3,7 @@
 @using Recurop
 @inject HttpClient Http
 @inject RecurringOperationsManager Recurop
+@inject NotificationService NotificationService
 @implements IDisposable
 
 <PageTitle>Workout</PageTitle>
@@ -27,6 +28,9 @@ else
                 <div class="col">
                     <h5><b>Selected Exercise:</b> @_Exercise.Name</h5>
                     <div class="row">
+                        <div class="col">
+                            <h5><b>Round:</b> @_totalRounds/@_Workout.Rounds</h5>
+                        </div>
                         <div class="col">
                             <h5><b>Sets:</b> @_Exercise.Sets</h5>
                         </div>
@@ -57,6 +61,7 @@ else
                     <button type="button" class="btn btn-primary col-sm-2" disabled=@(_timerOperation.IsPaused ? false : true) @onclick="ResumeTimer">Resume</button>
                     <button type="button" class="btn btn-primary col-sm-2" disabled=@(_timerOperation.IsRecurring ? false : true) @onclick="StopTimer">Stop</button>
                     <button type="button" class="btn btn-primary col-sm-2" disabled=@(_timerOperation.IsRecurring ? false : true) @onclick="NextExercise">Next</button>
+                    <br>
                 </div>
             </div>
         </div>
@@ -92,11 +97,11 @@ else
                         @foreach (var exercise in _Workout.Exercises)
                         {
                             <tr>
-                            <th scope="row" visi>@exercise.Id</th>
-                            <td>@exercise.Name</td>
-                            <td>@exercise.Sets</td>
-                            <td>@exercise.Reps</td>
-                            <td>@exercise.Duration</td>
+                                <th scope="row" visi>@exercise.Id</th>
+                                <td>@exercise.Name</td>
+                                <td>@exercise.Sets</td>
+                                <td>@exercise.Reps</td>
+                                <td>@exercise.Duration</td>
                             </tr>
                         }
                     </tbody>
@@ -139,6 +144,7 @@ else
     private RecurringOperation? _timerOperation { get; set; }
     private RecurringOperation? _exerciseOperation { get; set; }
     private TimeSpan _Timer { get; set; }
+    private int _totalRounds { get; set; }
     private int _elapsedSeconds { get; set; }
     private int _exerciseElapsedSeconds { get; set; }
 
@@ -157,8 +163,14 @@ else
         _exerciseOperation.StatusChanged += ExerciseOperationStatusChanged;
     }
 
+    private void ShowNotification(NotificationMessage message)
+    {
+        NotificationService.Notify(message);
+    }
+
     private void StartTimer()
     {
+        _totalRounds++;
         Recurop.StartRecurring(_timerOperation, TimeSpan.FromSeconds(1));
         Recurop.StartRecurring(_exerciseOperation, TimeSpan.FromSeconds(1));
     }
@@ -190,21 +202,64 @@ else
         }
     }
 
+    private Task RestExerciseOperation()
+    {
+        if (_Exercise.Rest.Seconds > 0)
+        {
+            PauseTimer();
+            ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Info Summary", Detail = "Exercise Paused!", Duration = 4000 });
+
+            Task.Delay(_Exercise.Rest.Milliseconds);
+            ResumeTimer();
+            ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Info Summary", Detail = "Exercise Resumed!", Duration = 4000 });
+        }
+
+        return Task.CompletedTask;
+    }
+
     private void NextExercise()
     {
-        Recurop.CancelRecurring(_exerciseOperation);
-        if (_Exercise.Id < _Workout.Exercises.OrderByDescending(e => e.Id).FirstOrDefault().Id)
+        if (_exerciseElapsedSeconds < _Exercise.Duration.Seconds)
         {
-            _Exercise = _Workout.Exercises.Where(e => e.Id == (_Exercise.Id + 1)).FirstOrDefault();
-            if (_Exercise.Duration > new TimeSpan(0, 0, 0))
-            {
-                Recurop.StartRecurring(_exerciseOperation, TimeSpan.FromSeconds(1));
-            }
+            _exerciseElapsedSeconds++;
+            RadzenRadialGaugeValue = Convert.ToDouble(TimeSpan.FromSeconds(_exerciseElapsedSeconds).Seconds);
         }
         else
         {
-            StopTimer();
+            RestExerciseOperation();
+            Recurop.CancelRecurring(_exerciseOperation);
+            if (_Exercise.Id < _Workout.Exercises.OrderByDescending(e => e.Id).FirstOrDefault().Id)
+            {
+                _Exercise = _Workout.Exercises.Where(e => e.Id == (_Exercise.Id + 1)).FirstOrDefault();
+                if (_Exercise.Duration > new TimeSpan(0, 0, 0))
+                {
+                    Recurop.StartRecurring(_exerciseOperation, TimeSpan.FromSeconds(1));
+                }
+            }
+            else
+            {
+                if (_totalRounds < _Workout.Rounds)
+                {
+                    _totalRounds++;
+                    ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Info Summary", Detail = $"Workout Rounds Left: {(_Workout.Rounds - _totalRounds)}", Duration = 4000 });
+                    _Exercise = _Workout.Exercises.FirstOrDefault();
+                    if (_exerciseElapsedSeconds > 0)
+                    {
+                        Recurop.CancelRecurring(_exerciseOperation);
+                    }
+                    if (_Exercise.Duration > new TimeSpan(0, 0, 0))
+                    {
+                        Recurop.StartRecurring(_exerciseOperation, TimeSpan.FromSeconds(1));
+                    }
+                }
+                else
+                {
+                    ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Info Summary", Detail = $"Workout Completed", Duration = 4000 });
+                    StopTimer();
+                }
+            }
         }
+
         StateHasChanged();
     }
 
@@ -224,6 +279,7 @@ else
         }
         else
         {
+            RestExerciseOperation();
             Recurop.CancelRecurring(_exerciseOperation);
             if (_Exercise.Id < _Workout.Exercises.OrderByDescending(e => e.Id).FirstOrDefault().Id)
             {
@@ -235,7 +291,25 @@ else
             }
             else
             {
-                StopTimer();
+                if (_totalRounds < _Workout.Rounds)
+                {
+                    _totalRounds++;
+                    ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Info Summary", Detail = $"Workout Rounds Left: {(_Workout.Rounds - _totalRounds)}", Duration = 4000 });
+                    _Exercise = _Workout.Exercises.FirstOrDefault();
+                    if (_exerciseElapsedSeconds > 0)
+                    {
+                        Recurop.CancelRecurring(_exerciseOperation);
+                    }
+                    if (_Exercise.Duration > new TimeSpan(0, 0, 0))
+                    {
+                        Recurop.StartRecurring(_exerciseOperation, TimeSpan.FromSeconds(1));
+                    }
+                }
+                else
+                {
+                    ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Info Summary", Detail = $"Workout Completed", Duration = 4000 });
+                    StopTimer();
+                }
             }
         }
 
@@ -254,6 +328,7 @@ else
                 break;
             case RecurringOperationStatus.Cancelled:
                 _Timer = TimeSpan.Zero;
+                _totalRounds = 0;
                 _elapsedSeconds = 0;
                 _Exercise = _Workout.Exercises.FirstOrDefault();
                 break;
