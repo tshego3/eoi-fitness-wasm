@@ -188,17 +188,16 @@ else
 
     private async Task RestDialog()
     {
-        Recurop.StartRecurring(_restOperation, TimeSpan.FromSeconds(1));
         await DialogService.OpenAsync("Rest Timer", ds =>
     @<div>
         <div class="row">
             <div class="col text-center p-5">
-                <h3><b>Rest Timer : @_RestTimer</b></h3>
+                <h3><b>@_RestTimer</b></h3>
             </div>
         </div>
     </div>
     ,
-    new DialogOptions() { ShowTitle = false, Style = "min-height:auto;min-width:auto;width:auto", CloseDialogOnEsc = true });
+    new DialogOptions() { ShowTitle = true, Style = "min-height:auto;min-width:auto;width:auto", CloseDialogOnEsc = true });
     }
 
     private async Task ShowRestDialog()
@@ -206,8 +205,6 @@ else
         InvokeAsync(async () =>
         {
             await Task.Delay(Convert.ToInt32(_Exercise.Rest.TotalMilliseconds));
-
-            Recurop.CancelRecurring(_restOperation);
             DialogService.Close();
         });
 
@@ -216,10 +213,22 @@ else
 
     private void Open(string title, Type type, Dictionary<string, object> parameters, DialogOptions options)
     {
+        Task.Run(async () =>
+        {
+            PauseTimer();
+            Recurop.StartRecurring(_restOperation, TimeSpan.FromSeconds(1));
+            await PlayNotification(AudioFiles[0].AudioBase64);
+        });
     }
 
     private void Close(dynamic result)
     {
+        Task.Run(async () =>
+        {
+            Recurop.CancelRecurring(_restOperation);
+            ResumeTimer();
+            await PlayNotification(AudioFiles[1].AudioBase64);
+        });
     }
 
     private void StartTimer()
@@ -268,13 +277,7 @@ else
     {
         if (_Exercise.Rest > new TimeSpan(0, 0, 0))
         {
-            PauseTimer();
-            await PlayNotification(AudioFiles[0].AudioBase64);
-
             await ShowRestDialog();
-
-            ResumeTimer();
-            await PlayNotification(AudioFiles[1].AudioBase64);
         }
     }
 
