@@ -62,7 +62,7 @@ else
                     <button type="button" class="btn btn-primary col-sm-2" disabled=@(_timerOperation.IsRecurring ? false : true) @onclick="PauseTimer">Pause</button>
                     <button type="button" class="btn btn-primary col-sm-2" disabled=@(_timerOperation.IsPaused ? false : true) @onclick="ResumeTimer">Resume</button>
                     <button type="button" class="btn btn-primary col-sm-2" disabled=@(_timerOperation.IsRecurring ? false : true) @onclick="StopTimer">Stop</button>
-                    <button type="button" class="btn btn-primary col-sm-2" disabled=@(_timerOperation.IsRecurring ? false : true) @onclick="NextExercise">Next</button>
+                    <button type="button" class="btn btn-primary col-sm-2" disabled=@(_timerOperation.IsRecurring ? false : true) id="nextbtn" @onclick="NextExercise">Next</button>
                     <br>
                 </div>
             </div>
@@ -121,6 +121,7 @@ else
 
     private eoifitnesswasm.Shared.Workout? _Workout { get; set; }
     private eoifitnesswasm.Shared.Exercise? _Exercise { get; set; }
+    private List<eoifitnesswasm.Shared.AudioFile>? AudioFiles { get; set; }
     private bool RadzenRadialGaugeShowValue { get { return true; } }
     private double _RadzenRadialGaugeValue { get; set; }
     private double RadzenRadialGaugeValue
@@ -159,6 +160,9 @@ else
         _Workout = JsonConvert.DeserializeObject<eoifitnesswasm.Shared.WorkoutsDB>(json).Workouts.Where(w => w.Id == Id).FirstOrDefault();
         _Exercise = _Workout.Exercises.FirstOrDefault();
 
+        var jsonAudio = await Http.GetStringAsync("data/audiofiles.json");
+        AudioFiles = JsonConvert.DeserializeObject<List<eoifitnesswasm.Shared.AudioFile>>(jsonAudio);
+
         _timerOperation = new("timer");
         _timerOperation.Operation = IncrementTimer;
         _timerOperation.StatusChanged += TimerOperationStatusChanged;
@@ -184,15 +188,15 @@ else
     {
         Recurop.StartRecurring(_restOperation, TimeSpan.FromSeconds(1));
         await DialogService.OpenAsync("Rest Timer", ds =>
-        @<div>
-            <div class="row">
-                <div class="col text-center p-5">
-                    <h3><b>Rest Timer : @_RestTimer</b></h3>
-                </div>
+    @<div>
+        <div class="row">
+            <div class="col text-center p-5">
+                <h3><b>Rest Timer : @_RestTimer</b></h3>
             </div>
         </div>
-        ,
-        new DialogOptions() { ShowTitle = false, Style = "min-height:auto;min-width:auto;width:auto", CloseDialogOnEsc = true });
+    </div>
+    ,
+    new DialogOptions() { ShowTitle = false, Style = "min-height:auto;min-width:auto;width:auto", CloseDialogOnEsc = true });
     }
 
     private async Task ShowRestDialog()
@@ -253,9 +257,9 @@ else
         }
     }
 
-    private async Task PlayNotification(string SoundSrc)
+    private async Task PlayNotification(string base64string)
     {
-        await JSRuntime.InvokeVoidAsync("playAudioFile", SoundSrc);
+        await JSRuntime.InvokeVoidAsync("playBase64AudioFile", base64string);
     }
 
     private async Task RestExerciseOperation()
@@ -263,12 +267,12 @@ else
         if (_Exercise.Rest > new TimeSpan(0, 0, 0))
         {
             PauseTimer();
-            await PlayNotification("/audio/ding-idea-40142.mp3");
+            await PlayNotification(AudioFiles[0].AudioBase64);
 
             await ShowRestDialog();
 
             ResumeTimer();
-            await PlayNotification("/audio/announcement-sound-4-21464.mp3");
+            await PlayNotification(AudioFiles[1].AudioBase64);
         }
     }
 
@@ -276,7 +280,7 @@ else
     {
         Task.Run(async () =>
         {
-            await PlayNotification("/audio/bass-dropmp3-14596.mp3");
+            await PlayNotification(AudioFiles[2].AudioBase64);
             await RestExerciseOperation();
             Recurop.CancelRecurring(_exerciseOperation);
             if (_Exercise.Id < _Workout.Exercises.OrderByDescending(e => e.Id).FirstOrDefault().Id)
@@ -286,6 +290,11 @@ else
                 {
                     Recurop.StartRecurring(_exerciseOperation, TimeSpan.FromSeconds(1));
                 }
+                if ((_Exercise.Id + 1) == _Workout.Exercises.OrderByDescending(e => e.Id).FirstOrDefault().Id)
+                {
+                    await JSRuntime.InvokeVoidAsync("disableNextBtn");
+                    StateHasChanged();
+                }
             }
             else
             {
@@ -293,7 +302,7 @@ else
                 {
                     _totalRounds++;
                     ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Info Summary", Detail = $"Workout Rounds Left: {(_Workout.Rounds - _totalRounds)}", Duration = 4000 });
-                    await PlayNotification("/audio/announcement-sound-4-21464.mp3");
+                    await PlayNotification(AudioFiles[1].AudioBase64);
                     _Exercise = _Workout.Exercises.FirstOrDefault();
                     if (_exerciseElapsedSeconds > 0)
                     {
@@ -308,7 +317,7 @@ else
                 {
                     ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Info Summary", Detail = $"Workout Completed", Duration = 4000 });
                     StopTimer();
-                    await PlayNotification("/audio/bass-dropmp3-14596.mp3");
+                    await PlayNotification(AudioFiles[2].AudioBase64);
                 }
             }
 
@@ -336,7 +345,7 @@ else
                 }
                 else
                 {
-                    await PlayNotification("/audio/bass-dropmp3-14596.mp3");
+                    await PlayNotification(AudioFiles[2].AudioBase64);
                     await RestExerciseOperation();
                     Recurop.CancelRecurring(_exerciseOperation);
                     if (_Exercise.Id < _Workout.Exercises.OrderByDescending(e => e.Id).FirstOrDefault().Id)
@@ -346,6 +355,11 @@ else
                         {
                             Recurop.StartRecurring(_exerciseOperation, TimeSpan.FromSeconds(1));
                         }
+                        if ((_Exercise.Id + 1) == _Workout.Exercises.OrderByDescending(e => e.Id).FirstOrDefault().Id)
+                        {
+                            await JSRuntime.InvokeVoidAsync("disableNextBtn");
+                            StateHasChanged();
+                        }
                     }
                     else
                     {
@@ -353,7 +367,7 @@ else
                         {
                             _totalRounds++;
                             ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Info Summary", Detail = $"Workout Rounds Left: {(_Workout.Rounds - _totalRounds)}", Duration = 4000 });
-                            await PlayNotification("/audio/announcement-sound-4-21464.mp3");
+                            await PlayNotification(AudioFiles[1].AudioBase64);
                             _Exercise = _Workout.Exercises.FirstOrDefault();
                             if (_exerciseElapsedSeconds > 0)
                             {
@@ -368,7 +382,7 @@ else
                         {
                             ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Info Summary", Detail = $"Workout Completed", Duration = 4000 });
                             StopTimer();
-                            await PlayNotification("/audio/bass-dropmp3-14596.mp3");
+                            await PlayNotification(AudioFiles[2].AudioBase64);
                         }
                     }
                 }

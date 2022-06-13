@@ -26,6 +26,21 @@
         window.playAudioFile = (src) => {
             new Audio(src).play();
         };
+
+        window.playBase64AudioFile = (base64string) => {
+            new Audio("data:audio/wav;base64," + base64string).play();
+        };
+
+        function disableNextBtn()
+        {
+            const button = document.getElementById('nextntn')
+            button.disabled = true;
+        }
+
+        function enableNextBtn() {
+            const button = document.getElementById('nextbtn')
+            button.disabled = false;
+        }
     </script>
 </body>
 
