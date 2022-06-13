@@ -16,6 +16,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="wwwroot\audio\announcement-sound-4-21464.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\audio\bass-dropmp3-14596.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\audio\ding-idea-40142.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="wwwroot\data\three10minute.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
