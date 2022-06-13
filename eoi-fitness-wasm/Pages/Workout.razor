@@ -62,7 +62,7 @@ else
                     <button type="button" class="btn btn-primary col-sm-2" disabled=@(_timerOperation.IsRecurring ? false : true) @onclick="PauseTimer">Pause</button>
                     <button type="button" class="btn btn-primary col-sm-2" disabled=@(_timerOperation.IsPaused ? false : true) @onclick="ResumeTimer">Resume</button>
                     <button type="button" class="btn btn-primary col-sm-2" disabled=@(_timerOperation.IsRecurring ? false : true) @onclick="StopTimer">Stop</button>
-                    <button type="button" class="btn btn-primary col-sm-2" disabled=@(_timerOperation.IsRecurring ? false : true) id="nextbtn" @onclick="NextExercise">Next</button>
+                    <button type="button" class="btn btn-primary col-sm-2" disabled=@(_timerOperation.IsRecurring ? DisableNextBtn : true) @onclick="NextExercise">Next</button>
                     <br>
                 </div>
             </div>
@@ -122,6 +122,7 @@ else
     private eoifitnesswasm.Shared.Workout? _Workout { get; set; }
     private eoifitnesswasm.Shared.Exercise? _Exercise { get; set; }
     private List<eoifitnesswasm.Shared.AudioFile>? AudioFiles { get; set; }
+    private bool DisableNextBtn { get; set; }
     private bool RadzenRadialGaugeShowValue { get { return true; } }
     private double _RadzenRadialGaugeValue { get; set; }
     private double RadzenRadialGaugeValue
@@ -163,6 +164,7 @@ else
         var jsonAudio = await Http.GetStringAsync("data/audiofiles.json");
         AudioFiles = JsonConvert.DeserializeObject<List<eoifitnesswasm.Shared.AudioFile>>(jsonAudio);
 
+        DisableNextBtn = false;
         _timerOperation = new("timer");
         _timerOperation.Operation = IncrementTimer;
         _timerOperation.StatusChanged += TimerOperationStatusChanged;
@@ -290,9 +292,9 @@ else
                 {
                     Recurop.StartRecurring(_exerciseOperation, TimeSpan.FromSeconds(1));
                 }
-                if ((_Exercise.Id + 1) == _Workout.Exercises.OrderByDescending(e => e.Id).FirstOrDefault().Id)
+                if (_Exercise.Id == _Workout.Exercises.OrderByDescending(e => e.Id).FirstOrDefault().Id)
                 {
-                    await JSRuntime.InvokeVoidAsync("disableNextBtn");
+                    DisableNextBtn = true;
                     StateHasChanged();
                 }
             }
@@ -355,9 +357,9 @@ else
                         {
                             Recurop.StartRecurring(_exerciseOperation, TimeSpan.FromSeconds(1));
                         }
-                        if ((_Exercise.Id + 1) == _Workout.Exercises.OrderByDescending(e => e.Id).FirstOrDefault().Id)
+                        if (_Exercise.Id == _Workout.Exercises.OrderByDescending(e => e.Id).FirstOrDefault().Id)
                         {
-                            await JSRuntime.InvokeVoidAsync("disableNextBtn");
+                            DisableNextBtn = true;
                             StateHasChanged();
                         }
                     }
@@ -411,6 +413,7 @@ else
             case RecurringOperationStatus.Executing:
                 break;
             case RecurringOperationStatus.Cancelled:
+                DisableNextBtn = false;
                 _Timer = TimeSpan.Zero;
                 _totalRounds = 0;
                 _elapsedSeconds = 0;
@@ -453,6 +456,7 @@ else
             case RecurringOperationStatus.Executing:
                 break;
             case RecurringOperationStatus.Cancelled:
+                DisableNextBtn = false;
                 _RestTimer = TimeSpan.Zero;
                 _restElapsedSeconds = 0;
                 break;
