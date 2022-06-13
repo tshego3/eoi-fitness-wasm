@@ -4,6 +4,7 @@
 @inject HttpClient Http
 @inject RecurringOperationsManager Recurop
 @inject NotificationService NotificationService
+@inject IJSRuntime JSRuntime
 @implements IDisposable
 
 <PageTitle>Workout</PageTitle>
@@ -202,15 +203,23 @@ else
         }
     }
 
+    private async Task PlayNotification(string SoundSrc)
+    {
+        await JSRuntime.InvokeVoidAsync("playAudioFile", SoundSrc);
+    }
+
     private async Task RestExerciseOperation()
     {
         if (_Exercise.Rest > new TimeSpan(0, 0, 0))
         {
             PauseTimer();
+            
             ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Info Summary", Detail = $"Exercise Paused! Rest for {_Exercise.Rest.TotalSeconds} seconds.", Duration = 4000 });
+            await PlayNotification("/audio/ding-idea-40142.mp3");
 
             await Task.Delay(Convert.ToInt32(_Exercise.Rest.TotalMilliseconds));
             ResumeTimer();
+            await PlayNotification("/audio/announcement-sound-4-21464.mp3");
             ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Info Summary", Detail = "Exercise Resumed!", Duration = 4000 });
         }
     }
@@ -241,6 +250,7 @@ else
                     if (_totalRounds < _Workout.Rounds)
                     {
                         _totalRounds++;
+                        await PlayNotification("/audio/announcement-sound-4-21464.mp3");
                         ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Info Summary", Detail = $"Workout Rounds Left: {(_Workout.Rounds - _totalRounds)}", Duration = 4000 });
                         _Exercise = _Workout.Exercises.FirstOrDefault();
                         if (_exerciseElapsedSeconds > 0)
@@ -254,6 +264,7 @@ else
                     }
                     else
                     {
+                        await PlayNotification("/audio/bass-dropmp3-14596.mp3");
                         ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Info Summary", Detail = $"Workout Completed", Duration = 4000 });
                         StopTimer();
                     }
@@ -272,7 +283,7 @@ else
     }
 
     private void ExerciseIncrementTimer()
-    {
+     {
         Task.Run(async () =>
         {
             if (_exerciseElapsedSeconds < _Exercise.Duration.TotalSeconds)
@@ -297,6 +308,7 @@ else
                     if (_totalRounds < _Workout.Rounds)
                     {
                         _totalRounds++;
+                        await PlayNotification("/audio/announcement-sound-4-21464.mp3");
                         ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Info Summary", Detail = $"Workout Rounds Left: {(_Workout.Rounds - _totalRounds)}", Duration = 4000 });
                         _Exercise = _Workout.Exercises.FirstOrDefault();
                         if (_exerciseElapsedSeconds > 0)
@@ -310,7 +322,8 @@ else
                     }
                     else
                     {
-                        ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Info Summary", Detail = $"Workout Completed", Duration = 4000 });
+                        await PlayNotification("/audio/bass-dropmp3-14596.mp3");
+                        ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Info Summary", Detail = $"Workout Completed", Duration = 4000 });
                         StopTimer();
                     }
                 }
