@@ -30,9 +30,6 @@
     <Content Update="wwwroot\data\bodyblaster.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot\imgs\gym-g6fe38f57d_1920.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
 </Project>

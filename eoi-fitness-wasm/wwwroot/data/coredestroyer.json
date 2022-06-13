@@ -4,6 +4,7 @@
       "Id": 1,
       "Title": "Core Destroyer",
       "Heading": "Workout #1 - Straight Sets Session",
+      "Tag": "coredestroyer",
       "Description": "Complete the following exercises back-to-back with no rest between exercises. This counts as one round. Rest 2 minutes between each round. Repeat 3 times. Once you are able to finish three rounds of this with no problem, add five seconds to each exercise.",
       "MainGoal": "Build Muscle",
       "TrainingLevel": "Beginner",
@@ -58,7 +59,7 @@
           "Sets": 3,
           "Reps": 1,
           "Rest": "00:01:00",
-          "Duration": "00:00:60"
+          "Duration": "00:01:00"
         }
       ]
     },
@@ -66,6 +67,7 @@
       "Id": 2,
       "Title": "Core Destroyer",
       "Heading": "Workout #2 - Ab Blasting Circuit",
+      "Tag": "coredestroyer",
       "Description": "Complete the following exercises back-to-back with no rest between exercises. This counts as one round. Rest 2 minutes between each round. Repeat 3 times. Once you are able to finish three rounds of this with no problem, add five seconds to each exercise.",
       "MainGoal": "Build Muscle",
       "TrainingLevel": "Beginner",

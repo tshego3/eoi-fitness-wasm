@@ -16,6 +16,7 @@
         public int Id { get; set; }
         public string? Title { get; set; }
         public string? Heading { get; set; }
+        public string? Tag { get; set; }
         public string? Description { get; set; }
         public string? MainGoal { get; set; }
         public string? TrainingLevel { get; set; }
