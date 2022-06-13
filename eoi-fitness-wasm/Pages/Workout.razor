@@ -2,6 +2,7 @@
 @using Newtonsoft.Json
 @using Recurop
 @inject HttpClient Http
+@inject DialogService DialogService
 @inject RecurringOperationsManager Recurop
 @inject NotificationService NotificationService
 @inject IJSRuntime JSRuntime
@@ -144,10 +145,13 @@ else
     private GaugeTickPosition tickPosition { get { return GaugeTickPosition.Inside; } }
     private RecurringOperation? _timerOperation { get; set; }
     private RecurringOperation? _exerciseOperation { get; set; }
+    private RecurringOperation? _restOperation { get; set; }
     private TimeSpan _Timer { get; set; }
+    private TimeSpan _RestTimer { get; set; }
     private int _totalRounds { get; set; }
     private int _elapsedSeconds { get; set; }
     private int _exerciseElapsedSeconds { get; set; }
+    private int _restElapsedSeconds { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -162,6 +166,13 @@ else
         _exerciseOperation = new("exerciseTimer");
         _exerciseOperation.Operation = ExerciseIncrementTimer;
         _exerciseOperation.StatusChanged += ExerciseOperationStatusChanged;
+
+        _restOperation = new("restTimer");
+        _restOperation.Operation = RestIncrementTimer;
+        _restOperation.StatusChanged += RestOperationStatusChanged;
+
+        DialogService.OnOpen += Open;
+        DialogService.OnClose += Close;
     }
 
     private void ShowNotification(NotificationMessage message)
@@ -169,11 +180,50 @@ else
         NotificationService.Notify(message);
     }
 
+    private async Task RestDialog()
+    {
+        Recurop.StartRecurring(_restOperation, TimeSpan.FromSeconds(1));
+        await DialogService.OpenAsync("Rest Timer", ds =>
+        @<div>
+            <div class="row">
+                <div class="col text-center p-5">
+                    <h3><b>Rest Timer: @_RestTimer</b></h3>
+                </div>
+            </div>
+        </div>
+        ,
+        new DialogOptions() { ShowTitle = false, Style = "min-height:auto;min-width:auto;width:auto", CloseDialogOnEsc = true });
+    }
+
+    private async Task ShowRestDialog()
+    {
+        InvokeAsync(async () =>
+        {
+            await Task.Delay(Convert.ToInt32(_Exercise.Rest.TotalMilliseconds));
+
+            Recurop.CancelRecurring(_restOperation);
+            DialogService.Close();
+        });
+
+        await RestDialog();
+    }
+
+    private void Open(string title, Type type, Dictionary<string, object> parameters, DialogOptions options)
+    {
+    }
+
+    private void Close(dynamic result)
+    {
+    }
+
     private void StartTimer()
     {
         _totalRounds++;
         Recurop.StartRecurring(_timerOperation, TimeSpan.FromSeconds(1));
-        Recurop.StartRecurring(_exerciseOperation, TimeSpan.FromSeconds(1));
+        if (_Exercise.Duration > new TimeSpan(0, 0, 0))
+        {
+            Recurop.StartRecurring(_exerciseOperation, TimeSpan.FromSeconds(1));
+        }
     }
 
     private void PauseTimer()
@@ -213,12 +263,11 @@ else
         if (_Exercise.Rest > new TimeSpan(0, 0, 0))
         {
             PauseTimer();
-            ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Info Summary", Detail = $"Exercise Paused! Rest for {_Exercise.Rest.TotalSeconds} seconds.", Duration = _Exercise.Rest.TotalMilliseconds });
             await PlayNotification("/audio/ding-idea-40142.mp3");
 
-            await Task.Delay(Convert.ToInt32(_Exercise.Rest.TotalMilliseconds));
+            await ShowRestDialog();
+
             ResumeTimer();
-            ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Info Summary", Detail = "Exercise Resumed!", Duration = 4000 });
             await PlayNotification("/audio/announcement-sound-4-21464.mp3");
         }
     }
@@ -329,6 +378,14 @@ else
         });
     }
 
+    private void RestIncrementTimer()
+    {
+        _restElapsedSeconds++;
+        _RestTimer = TimeSpan.FromSeconds(_restElapsedSeconds);
+        DialogService.Refresh();
+        StateHasChanged();
+    }
+
     private void TimerOperationStatusChanged()
     {
         switch (_timerOperation.Status)
@@ -363,6 +420,27 @@ else
             case RecurringOperationStatus.Cancelled:
                 RadzenRadialGaugeValue = 0;
                 _exerciseElapsedSeconds = 0;
+                _RestTimer = TimeSpan.Zero;
+                _restElapsedSeconds = 0;
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void RestOperationStatusChanged()
+    {
+        switch (_restOperation.Status)
+        {
+            case RecurringOperationStatus.Idle:
+                break;
+            case RecurringOperationStatus.Paused:
+                break;
+            case RecurringOperationStatus.Executing:
+                break;
+            case RecurringOperationStatus.Cancelled:
+                _RestTimer = TimeSpan.Zero;
+                _restElapsedSeconds = 0;
                 break;
             default:
                 break;
@@ -373,5 +451,9 @@ else
     {
         Recurop.CancelRecurring(_timerOperation);
         Recurop.CancelRecurring(_exerciseOperation);
+        Recurop.CancelRecurring(_restOperation);
+
+        DialogService.OnOpen -= Open;
+        DialogService.OnClose -= Close;
     }
 }
