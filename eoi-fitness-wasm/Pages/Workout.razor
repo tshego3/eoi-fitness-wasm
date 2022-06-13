@@ -42,7 +42,7 @@ else
             </div>
             <div class="row">
                 <RadzenRadialGauge>
-                    <RadzenRadialGaugeScale StartAngle="-150" EndAngle="150" Step="1" Min="0" Max="@(_Exercise.Duration.TotalSeconds == 0 ? 1D : _Exercise.Duration.TotalSeconds)" TickPosition=@tickPosition>
+                    <RadzenRadialGaugeScale StartAngle="-150" EndAngle="150" Step="(_Exercise.Duration.TotalSeconds >= 60 ? 15 : 5)" Min="0" Max="@(_Exercise.Duration.TotalSeconds == 0 ? 1D : _Exercise.Duration.TotalSeconds)" TickPosition=@tickPosition>
                         <RadzenRadialGaugeScalePointer Value=RadzenRadialGaugeValue Length="0.6" ShowValue=@RadzenRadialGaugeShowValue>
                             <Template Context="pointer">
                                 <h4>
@@ -204,10 +204,10 @@ else
 
     private async Task RestExerciseOperation()
     {
-        if (_Exercise.Rest.TotalSeconds > 0)
+        if (_Exercise.Rest > new TimeSpan(0, 0, 0))
         {
             PauseTimer();
-            ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Info Summary", Detail = $"Exercise Paused! Rest for {_Exercise.Rest.TotalSeconds} seconds.", Duration = _Exercise.Rest.TotalMilliseconds });
+            ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Info Summary", Detail = $"Exercise Paused! Rest for {_Exercise.Rest.TotalSeconds} seconds.", Duration = 4000 });
 
             await Task.Delay(Convert.ToInt32(_Exercise.Rest.TotalMilliseconds));
             ResumeTimer();
