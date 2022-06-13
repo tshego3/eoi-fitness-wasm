@@ -213,14 +213,13 @@ else
         if (_Exercise.Rest > new TimeSpan(0, 0, 0))
         {
             PauseTimer();
-            
-            ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Info Summary", Detail = $"Exercise Paused! Rest for {_Exercise.Rest.TotalSeconds} seconds.", Duration = 4000 });
+            ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Info Summary", Detail = $"Exercise Paused! Rest for {_Exercise.Rest.TotalSeconds} seconds.", Duration = _Exercise.Rest.TotalMilliseconds });
             await PlayNotification("/audio/ding-idea-40142.mp3");
 
             await Task.Delay(Convert.ToInt32(_Exercise.Rest.TotalMilliseconds));
             ResumeTimer();
-            await PlayNotification("/audio/announcement-sound-4-21464.mp3");
             ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Info Summary", Detail = "Exercise Resumed!", Duration = 4000 });
+            await PlayNotification("/audio/announcement-sound-4-21464.mp3");
         }
     }
 
@@ -228,18 +227,29 @@ else
     {
         Task.Run(async () =>
         {
-            if (_exerciseElapsedSeconds < _Exercise.Duration.TotalSeconds)
+            await PlayNotification("/audio/bass-dropmp3-14596.mp3");
+            await RestExerciseOperation();
+            Recurop.CancelRecurring(_exerciseOperation);
+            if (_Exercise.Id < _Workout.Exercises.OrderByDescending(e => e.Id).FirstOrDefault().Id)
             {
-                _exerciseElapsedSeconds++;
-                RadzenRadialGaugeValue = TimeSpan.FromSeconds(_exerciseElapsedSeconds).TotalSeconds;
+                _Exercise = _Workout.Exercises.Where(e => e.Id == (_Exercise.Id + 1)).FirstOrDefault();
+                if (_Exercise.Duration > new TimeSpan(0, 0, 0))
+                {
+                    Recurop.StartRecurring(_exerciseOperation, TimeSpan.FromSeconds(1));
+                }
             }
             else
             {
-                await RestExerciseOperation();
-                Recurop.CancelRecurring(_exerciseOperation);
-                if (_Exercise.Id < _Workout.Exercises.OrderByDescending(e => e.Id).FirstOrDefault().Id)
+                if (_totalRounds < _Workout.Rounds)
                 {
-                    _Exercise = _Workout.Exercises.Where(e => e.Id == (_Exercise.Id + 1)).FirstOrDefault();
+                    _totalRounds++;
+                    ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Info Summary", Detail = $"Workout Rounds Left: {(_Workout.Rounds - _totalRounds)}", Duration = 4000 });
+                    await PlayNotification("/audio/announcement-sound-4-21464.mp3");
+                    _Exercise = _Workout.Exercises.FirstOrDefault();
+                    if (_exerciseElapsedSeconds > 0)
+                    {
+                        Recurop.CancelRecurring(_exerciseOperation);
+                    }
                     if (_Exercise.Duration > new TimeSpan(0, 0, 0))
                     {
                         Recurop.StartRecurring(_exerciseOperation, TimeSpan.FromSeconds(1));
@@ -247,27 +257,9 @@ else
                 }
                 else
                 {
-                    if (_totalRounds < _Workout.Rounds)
-                    {
-                        _totalRounds++;
-                        await PlayNotification("/audio/announcement-sound-4-21464.mp3");
-                        ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Info Summary", Detail = $"Workout Rounds Left: {(_Workout.Rounds - _totalRounds)}", Duration = 4000 });
-                        _Exercise = _Workout.Exercises.FirstOrDefault();
-                        if (_exerciseElapsedSeconds > 0)
-                        {
-                            Recurop.CancelRecurring(_exerciseOperation);
-                        }
-                        if (_Exercise.Duration > new TimeSpan(0, 0, 0))
-                        {
-                            Recurop.StartRecurring(_exerciseOperation, TimeSpan.FromSeconds(1));
-                        }
-                    }
-                    else
-                    {
-                        await PlayNotification("/audio/bass-dropmp3-14596.mp3");
-                        ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Info Summary", Detail = $"Workout Completed", Duration = 4000 });
-                        StopTimer();
-                    }
+                    ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Info Summary", Detail = $"Workout Completed", Duration = 4000 });
+                    StopTimer();
+                    await PlayNotification("/audio/bass-dropmp3-14596.mp3");
                 }
             }
 
@@ -283,38 +275,24 @@ else
     }
 
     private void ExerciseIncrementTimer()
-     {
+    {
         Task.Run(async () =>
         {
-            if (_exerciseElapsedSeconds < _Exercise.Duration.TotalSeconds)
+            if (_Exercise.Duration > new TimeSpan(0, 0, 0))
             {
-                _exerciseElapsedSeconds++;
-                RadzenRadialGaugeValue = TimeSpan.FromSeconds(_exerciseElapsedSeconds).TotalSeconds;
-            }
-            else
-            {
-                await RestExerciseOperation();
-                Recurop.CancelRecurring(_exerciseOperation);
-                if (_Exercise.Id < _Workout.Exercises.OrderByDescending(e => e.Id).FirstOrDefault().Id)
+                if (_exerciseElapsedSeconds < _Exercise.Duration.TotalSeconds)
                 {
-                    _Exercise = _Workout.Exercises.Where(e => e.Id == (_Exercise.Id + 1)).FirstOrDefault();
-                    if (_Exercise.Duration > new TimeSpan(0, 0, 0))
-                    {
-                        Recurop.StartRecurring(_exerciseOperation, TimeSpan.FromSeconds(1));
-                    }
+                    _exerciseElapsedSeconds++;
+                    RadzenRadialGaugeValue = TimeSpan.FromSeconds(_exerciseElapsedSeconds).TotalSeconds;
                 }
                 else
                 {
-                    if (_totalRounds < _Workout.Rounds)
+                    await PlayNotification("/audio/bass-dropmp3-14596.mp3");
+                    await RestExerciseOperation();
+                    Recurop.CancelRecurring(_exerciseOperation);
+                    if (_Exercise.Id < _Workout.Exercises.OrderByDescending(e => e.Id).FirstOrDefault().Id)
                     {
-                        _totalRounds++;
-                        await PlayNotification("/audio/announcement-sound-4-21464.mp3");
-                        ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Info Summary", Detail = $"Workout Rounds Left: {(_Workout.Rounds - _totalRounds)}", Duration = 4000 });
-                        _Exercise = _Workout.Exercises.FirstOrDefault();
-                        if (_exerciseElapsedSeconds > 0)
-                        {
-                            Recurop.CancelRecurring(_exerciseOperation);
-                        }
+                        _Exercise = _Workout.Exercises.Where(e => e.Id == (_Exercise.Id + 1)).FirstOrDefault();
                         if (_Exercise.Duration > new TimeSpan(0, 0, 0))
                         {
                             Recurop.StartRecurring(_exerciseOperation, TimeSpan.FromSeconds(1));
@@ -322,14 +300,32 @@ else
                     }
                     else
                     {
-                        await PlayNotification("/audio/bass-dropmp3-14596.mp3");
-                        ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Info Summary", Detail = $"Workout Completed", Duration = 4000 });
-                        StopTimer();
+                        if (_totalRounds < _Workout.Rounds)
+                        {
+                            _totalRounds++;
+                            ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Info, Summary = "Info Summary", Detail = $"Workout Rounds Left: {(_Workout.Rounds - _totalRounds)}", Duration = 4000 });
+                            await PlayNotification("/audio/announcement-sound-4-21464.mp3");
+                            _Exercise = _Workout.Exercises.FirstOrDefault();
+                            if (_exerciseElapsedSeconds > 0)
+                            {
+                                Recurop.CancelRecurring(_exerciseOperation);
+                            }
+                            if (_Exercise.Duration > new TimeSpan(0, 0, 0))
+                            {
+                                Recurop.StartRecurring(_exerciseOperation, TimeSpan.FromSeconds(1));
+                            }
+                        }
+                        else
+                        {
+                            ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Info Summary", Detail = $"Workout Completed", Duration = 4000 });
+                            StopTimer();
+                            await PlayNotification("/audio/bass-dropmp3-14596.mp3");
+                        }
                     }
                 }
-            }
 
-            StateHasChanged();
+                StateHasChanged();
+            }
         });
     }
 
